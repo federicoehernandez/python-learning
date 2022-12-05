@@ -1,9 +1,9 @@
 from peewee import *
 from playhouse import hybrid
-import re
 from tkinter.messagebox import *
 import datetime
 from tkinter import *
+from valida_regex import ValidadorRegex
 
 
 db = SqliteDatabase("facturasdecomprayventa.db")
@@ -106,8 +106,9 @@ class Abm:
         compraventaf,
         arbol,
     ):
-        patron = re.compile(r"^(20|23|27|30|33)([0-9]{9}|-[0-9]{8}-[0-9]{1})$")
-        if patron.match(cuitf.get()):
+        validador = ValidadorRegex(cuitf.get())
+
+        if validador.validator():
             cuit_str = str(cuitf.get())
             cuit_num = [int(x) for x in cuit_str if x != "-"]
             verif = 11 - (
@@ -296,8 +297,9 @@ class Abm:
         compraventaf,
         mi_tree,
     ):
-        patron = re.compile(r"^(20|23|27|30|33)([0-9]{9}|-[0-9]{8}-[0-9]{1})$")
-        if patron.match(cuitf.get()):
+        validation = ValidadorRegex(cuitf.get())
+
+        if validation.validator():
             cuit_str = str(cuitf.get())
             cuit_num = [int(x) for x in cuit_str if x != "-"]
             verif = 11 - (
