@@ -1,7 +1,8 @@
 from peewee import *
-from inst_db_orm2 import factura_consulta
-from inst_db_orm2 import Facturas
-from inst_db_orm2 import db
+
+# from inst_db_orm2 import factura_consulta
+# from inst_db_orm2 import Facturas
+# from inst_db_orm2 import db
 
 # query = factura_consulta.select().where(factura_consulta.id > 0)
 

@@ -4,7 +4,7 @@ from tkinter.messagebox import *
 import datetime
 from tkinter import *
 from valida_regex import ValidadorRegex
-
+from my_exception import ExceptionOwn
 
 db = SqliteDatabase("facturasdecomprayventa.db")
 
@@ -191,15 +191,31 @@ class Abm:
                 compraventaf.set("")
                 self_a.actualizar_treeview(arbol)
             else:
-                showerror(
-                    "Error en formato de CUIT",
-                    "Ingrese un CUIT válido con formato ##-########-# o ###########",
-                )
+                try:
+                    raise (
+                        ExceptionOwn(
+                            "Error en formato de CUIT",
+                            "Ingrese un CUIT valido con formato 'XX-XXXXXXXX-X' o 'XXXXXXXXXXX'.",
+                        )
+                    )
+                except ExceptionOwn as error:
+                    showerror(
+                        error.msj_1,
+                        error.msj_2,
+                    )
         else:
-            showerror(
-                "Error en formato de CUIT",
-                "Ingrese un CUIT válido con formato ##-########-# o ###########",
-            )
+            try:
+                raise (
+                    ExceptionOwn(
+                        "Error en formato de CUIT",
+                        "Ingrese un CUIT valido con formato 'XX-XXXXXXXX-X' o 'XXXXXXXXXXX'.",
+                    )
+                )
+            except ExceptionOwn as error:
+                showerror(
+                    error.msj_1,
+                    error.msj_2,
+                )
 
     # La funcion de actualizacion del treeview:
     def actualizar_treeview(self_at, el_treeview):
