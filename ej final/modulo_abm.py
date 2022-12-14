@@ -50,52 +50,14 @@ db.close()
 
 tuplas = ("30-70836728-8", "Sociedad", 1234)
 
-# db.connect()
 
 factura_consulta = Facturas()
-
-"""
-
-factura_generica = Facturas.create(
-    CUIT=tuplas[0],
-    RazonSocial=tuplas[1],
-    Numero_de_factura=tuplas[2],
-    Fecha="2022-11-26",
-    Precio=124.60,
-    Cantidad=2,
-    Alicuota=1.5,
-    Impuesto=Facturas.gs_impuesto(),
-    Neto=Facturas.gs_neto(),
-    Total=Facturas.gs_total(),
-    Compra_Venta="Compra",
-)
-factura_generica.save()
-db.close()
-
-
-db.connect()
-factura = Facturas()
-factura.CUIT = "30-70836728-9"
-factura.RazonSocial = "ASDF2"
-factura.Numero_de_factura = 456123
-factura.Fecha = "2022-11-27"
-factura.Precio = 231.5
-factura.Cantidad = 1
-factura.Alicuota = 1
-factura.Impuesto = Facturas.gs_impuesto()
-factura.Neto = Facturas.gs_neto()
-factura.Total = Facturas.gs_total()
-factura.Compra_Venta = "Compra"
-factura.save()
-db.close()
-
-"""
 
 
 class Abm:
     # La funcion de alta de registros:
     def alta2(
-        self_a,
+        self,
         cuitf,
         razonsocialf,
         numerodefacturaf,
@@ -189,7 +151,7 @@ class Abm:
                 cantidadf.set(0),
                 alicuotaf.set(0),
                 compraventaf.set("")
-                self_a.actualizar_treeview(arbol)
+                self.actualizar_treeview(arbol)
             else:
                 try:
                     raise (
@@ -218,7 +180,7 @@ class Abm:
                 )
 
     # La funcion de actualizacion del treeview:
-    def actualizar_treeview(self_at, el_treeview):
+    def actualizar_treeview(self, el_treeview):
         records = el_treeview.get_children()
         for element in records:
             el_treeview.delete(element)
@@ -247,7 +209,7 @@ class Abm:
             )
 
     # La funcion para borrar las lineas seleccionadas:
-    def fborrar(self_bor, mi_tree):
+    def fborrar(self, mi_tree):
         valor = mi_tree.selection()
         # print(valor)  # ('I005',)
         for x in range(0, len(valor)):
@@ -256,11 +218,11 @@ class Abm:
             print(item["text"])
             query = Facturas.delete().where(Facturas.id == mi_id)
             query.execute()
-        self_bor.actualizar_treeview(mi_tree)
+        self.actualizar_treeview(mi_tree)
 
     # Funcion para seleccionar lo que voy a modificar
     def modificar(
-        self_mod,
+        self,
         cuitf,
         razonsocialf,
         numerodefacturaf,
@@ -302,7 +264,7 @@ class Abm:
 
     # Funcion para guardar la modificacion ingresada
     def guardar_modificacion(
-        self_gm,
+        self,
         cuitf,
         razonsocialf,
         numerodefacturaf,
@@ -393,7 +355,7 @@ class Abm:
                 query.execute()
 
                 print("Estoy en alta todo ok")
-                self_gm.actualizar_treeview(mi_tree)
+                self.actualizar_treeview(mi_tree)
             else:
                 showerror(
                     "Error en formato de CUIT",

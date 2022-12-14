@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>modulo_consultas &mdash; Ejercicio_Final 0.0.1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> Ejercicio_Final
+          </a>
+              <div class="version">
+                0.0.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../controlador.html">controlador module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modulo_abm.html">modulo_abm module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modulo_consultas.html">modulo_consultas module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modulo_opciones.html">modulo_opciones module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../my_exception.html">my_exception module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../valida_regex.html">valida_regex module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vista.html">vista module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Ejercicio_Final</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">modulo_consultas</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for modulo_consultas</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Modulo consultas:</span>
+<span class="sd">    En este modulo se encuentran todas las operaciones que representen extraccion y visualizacion de informacion que esté en la base de datos y el treeview.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">modulo_abm</span> <span class="kn">import</span> <span class="n">Facturas</span>
+<span class="kn">from</span> <span class="nn">tkinter.messagebox</span> <span class="kn">import</span> <span class="o">*</span>
+
+
+<div class="viewcode-block" id="Consultas"><a class="viewcode-back" href="../modulo_consultas.html#modulo_consultas.Consultas">[docs]</a><span class="k">class</span> <span class="nc">Consultas</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    En la clase **Consultas** se encuentran todos los metodos que ejecutara el usuario desde la interfaz para acceder a informacion que se encuentre en la base de datos.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="c1"># Funciones para seleccionar todo</span>
+<div class="viewcode-block" id="Consultas.select_all"><a class="viewcode-back" href="../modulo_consultas.html#modulo_consultas.Consultas.select_all">[docs]</a>    <span class="k">def</span> <span class="nf">select_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arbol</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        El metodo **select_all** servira para que el usuario pueda seleccionar todas las lineas del treeview y pueda realizar una accion con ellas.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">arbol</span><span class="o">.</span><span class="n">get_children</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_selection</span><span class="p">(</span><span class="n">arbol</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Consultas.add_selection"><a class="viewcode-back" href="../modulo_consultas.html#modulo_consultas.Consultas.add_selection">[docs]</a>    <span class="k">def</span> <span class="nf">add_selection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arbol</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        El metodo **add_selection** complementa al metodo **select_all** para cubrir la funcionalidad de seleccionar todos los registros en el treeview.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">arbol</span><span class="o">.</span><span class="n">selection_add</span><span class="p">(</span><span class="n">item</span><span class="p">)</span></div>
+
+    <span class="c1"># Funcion para listar los registros seleccionados:</span>
+<div class="viewcode-block" id="Consultas.fver"><a class="viewcode-back" href="../modulo_consultas.html#modulo_consultas.Consultas.fver">[docs]</a>    <span class="k">def</span> <span class="nf">fver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arbol</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        El metodo **fver** sirve para visualizar las lineas seleccionadas del treeview en la consola.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">register</span> <span class="ow">in</span> <span class="n">arbol</span><span class="o">.</span><span class="n">selection</span><span class="p">():</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="s2">&quot;ID: &quot;</span>
+                <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">arbol</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">register</span><span class="p">)[</span><span class="s2">&quot;text&quot;</span><span class="p">])</span>
+                <span class="o">+</span> <span class="s2">&quot; / CUIT: &quot;</span>
+                <span class="o">+</span> <span class="nb">str</span><span class="p">((</span><span class="n">arbol</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">register</span><span class="p">)[</span><span class="s2">&quot;values&quot;</span><span class="p">])[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="o">+</span> <span class="s2">&quot; / RAZON SOCIAL: &quot;</span>
+                <span class="o">+</span> <span class="nb">str</span><span class="p">((</span><span class="n">arbol</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">register</span><span class="p">)[</span><span class="s2">&quot;values&quot;</span><span class="p">])[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="o">+</span> <span class="s2">&quot; / NUMERO DE FACTURA: &quot;</span>
+                <span class="o">+</span> <span class="nb">str</span><span class="p">((</span><span class="n">arbol</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">register</span><span class="p">)[</span><span class="s2">&quot;values&quot;</span><span class="p">])[</span><span class="mi">2</span><span class="p">])</span>
+                <span class="o">+</span> <span class="s2">&quot; / FECHA: &quot;</span>
+                <span class="o">+</span> <span class="nb">str</span><span class="p">((</span><span class="n">arbol</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">register</span><span class="p">)[</span><span class="s2">&quot;values&quot;</span><span class="p">])[</span><span class="mi">3</span><span class="p">])</span>
+                <span class="o">+</span> <span class="s2">&quot; / PRECIO: &quot;</span>
+                <span class="o">+</span> <span class="nb">str</span><span class="p">((</span><span class="n">arbol</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">register</span><span class="p">)[</span><span class="s2">&quot;values&quot;</span><span class="p">])[</span><span class="mi">4</span><span class="p">])</span>
+                <span class="o">+</span> <span class="s2">&quot; / CANTIDAD: &quot;</span>
+                <span class="o">+</span> <span class="nb">str</span><span class="p">((</span><span class="n">arbol</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">register</span><span class="p">)[</span><span class="s2">&quot;values&quot;</span><span class="p">])[</span><span class="mi">5</span><span class="p">])</span>
+                <span class="o">+</span> <span class="s2">&quot; / ALICUOTA: &quot;</span>
+                <span class="o">+</span> <span class="nb">str</span><span class="p">((</span><span class="n">arbol</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">register</span><span class="p">)[</span><span class="s2">&quot;values&quot;</span><span class="p">])[</span><span class="mi">6</span><span class="p">])</span>
+                <span class="o">+</span> <span class="s2">&quot; / IMPUESTO: &quot;</span>
+                <span class="o">+</span> <span class="nb">str</span><span class="p">((</span><span class="n">arbol</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">register</span><span class="p">)[</span><span class="s2">&quot;values&quot;</span><span class="p">])[</span><span class="mi">7</span><span class="p">])</span>
+                <span class="o">+</span> <span class="s2">&quot; / NETO: &quot;</span>
+                <span class="o">+</span> <span class="nb">str</span><span class="p">((</span><span class="n">arbol</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">register</span><span class="p">)[</span><span class="s2">&quot;values&quot;</span><span class="p">])[</span><span class="mi">8</span><span class="p">])</span>
+                <span class="o">+</span> <span class="s2">&quot; / TOTAL: &quot;</span>
+                <span class="o">+</span> <span class="nb">str</span><span class="p">((</span><span class="n">arbol</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">register</span><span class="p">)[</span><span class="s2">&quot;values&quot;</span><span class="p">])[</span><span class="mi">9</span><span class="p">])</span>
+                <span class="o">+</span> <span class="s2">&quot; / COMPRA/VENTA: &quot;</span>
+                <span class="o">+</span> <span class="p">(</span><span class="n">arbol</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">register</span><span class="p">)[</span><span class="s2">&quot;values&quot;</span><span class="p">])[</span><span class="mi">10</span><span class="p">]</span>
+            <span class="p">)</span></div>
+
+    <span class="c1"># Funcion para listar compras en consola</span>
+<div class="viewcode-block" id="Consultas.listar_c"><a class="viewcode-back" href="../modulo_consultas.html#modulo_consultas.Consultas.listar_c">[docs]</a>    <span class="k">def</span> <span class="nf">listar_c</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arbol</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        El metodo **listar_c** sirve para que el usuario pueda ver todas las lineas que representen compras hechas a traves de la consola.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">select_all</span><span class="p">(</span><span class="n">arbol</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">register</span> <span class="ow">in</span> <span class="n">arbol</span><span class="o">.</span><span class="n">selection</span><span class="p">():</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">arbol</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">register</span><span class="p">)[</span><span class="s2">&quot;values&quot;</span><span class="p">])[</span><span class="mi">10</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Compra&quot;</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span>
+                    <span class="s2">&quot;ID: &quot;</span>
+                    <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">arbol</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">register</span><span class="p">)[</span><span class="s2">&quot;text&quot;</span><span class="p">])</span>
+                    <span class="o">+</span> <span class="s2">&quot; / CUIT: &quot;</span>
+                    <span class="o">+</span> <span class="nb">str</span><span class="p">((</span><span class="n">arbol</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">register</span><span class="p">)[</span><span class="s2">&quot;values&quot;</span><span class="p">])[</span><span class="mi">0</span><span class="p">])</span>
+                    <span class="o">+</span> <span class="s2">&quot; / RAZON SOCIAL: &quot;</span>
+                    <span class="o">+</span> <span class="nb">str</span><span class="p">((</span><span class="n">arbol</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">register</span><span class="p">)[</span><span class="s2">&quot;values&quot;</span><span class="p">])[</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="o">+</span> <span class="s2">&quot; / NUMERO DE FACTURA: &quot;</span>
+                    <span class="o">+</span> <span class="nb">str</span><span class="p">((</span><span class="n">arbol</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">register</span><span class="p">)[</span><span class="s2">&quot;values&quot;</span><span class="p">])[</span><span class="mi">2</span><span class="p">])</span>
+                    <span class="o">+</span> <span class="s2">&quot; / FECHA: &quot;</span>
+                    <span class="o">+</span> <span class="nb">str</span><span class="p">((</span><span class="n">arbol</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">register</span><span class="p">)[</span><span class="s2">&quot;values&quot;</span><span class="p">])[</span><span class="mi">3</span><span class="p">])</span>
+                    <span class="o">+</span> <span class="s2">&quot; / PRECIO: &quot;</span>
+                    <span class="o">+</span> <span class="nb">str</span><span class="p">((</span><span class="n">arbol</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">register</span><span class="p">)[</span><span class="s2">&quot;values&quot;</span><span class="p">])[</span><span class="mi">4</span><span class="p">])</span>
+                    <span class="o">+</span> <span class="s2">&quot; / CANTIDAD: &quot;</span>
+                    <span class="o">+</span> <span class="nb">str</span><span class="p">((</span><span class="n">arbol</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">register</span><span class="p">)[</span><span class="s2">&quot;values&quot;</span><span class="p">])[</span><span class="mi">5</span><span class="p">])</span>
+                    <span class="o">+</span> <span class="s2">&quot; / ALICUOTA: &quot;</span>
+                    <span class="o">+</span> <span class="nb">str</span><span class="p">((</span><span class="n">arbol</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">register</span><span class="p">)[</span><span class="s2">&quot;values&quot;</span><span class="p">])[</span><span class="mi">6</span><span class="p">])</span>
+                    <span class="o">+</span> <span class="s2">&quot; / IMPUESTO: &quot;</span>
+                    <span class="o">+</span> <span class="nb">str</span><span class="p">((</span><span class="n">arbol</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">register</span><span class="p">)[</span><span class="s2">&quot;values&quot;</span><span class="p">])[</span><span class="mi">7</span><span class="p">])</span>
+                    <span class="o">+</span> <span class="s2">&quot; / NETO: &quot;</span>
+                    <span class="o">+</span> <span class="nb">str</span><span class="p">((</span><span class="n">arbol</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">register</span><span class="p">)[</span><span class="s2">&quot;values&quot;</span><span class="p">])[</span><span class="mi">8</span><span class="p">])</span>
+                    <span class="o">+</span> <span class="s2">&quot; / TOTAL: &quot;</span>
+                    <span class="o">+</span> <span class="nb">str</span><span class="p">((</span><span class="n">arbol</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">register</span><span class="p">)[</span><span class="s2">&quot;values&quot;</span><span class="p">])[</span><span class="mi">9</span><span class="p">])</span>
+                    <span class="o">+</span> <span class="s2">&quot; / COMPRA/VENTA: &quot;</span>
+                    <span class="o">+</span> <span class="p">(</span><span class="n">arbol</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">register</span><span class="p">)[</span><span class="s2">&quot;values&quot;</span><span class="p">])[</span><span class="mi">10</span><span class="p">]</span>
+                <span class="p">)</span></div>
+
+    <span class="c1"># Funcion para listar ventas en consola</span>
+<div class="viewcode-block" id="Consultas.listar_v"><a class="viewcode-back" href="../modulo_consultas.html#modulo_consultas.Consultas.listar_v">[docs]</a>    <span class="k">def</span> <span class="nf">listar_v</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arbol</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        El metodo **listar_v** sirve para que el usuario pueda ver todas las lineas que representen ventas hechas a traves de la consola.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">select_all</span><span class="p">(</span><span class="n">arbol</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">register</span> <span class="ow">in</span> <span class="n">arbol</span><span class="o">.</span><span class="n">selection</span><span class="p">():</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">arbol</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">register</span><span class="p">)[</span><span class="s2">&quot;values&quot;</span><span class="p">])[</span><span class="mi">10</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Venta&quot;</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span>
+                    <span class="s2">&quot;ID: &quot;</span>
+                    <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">arbol</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">register</span><span class="p">)[</span><span class="s2">&quot;text&quot;</span><span class="p">])</span>
+                    <span class="o">+</span> <span class="s2">&quot; / CUIT: &quot;</span>
+                    <span class="o">+</span> <span class="nb">str</span><span class="p">((</span><span class="n">arbol</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">register</span><span class="p">)[</span><span class="s2">&quot;values&quot;</span><span class="p">])[</span><span class="mi">0</span><span class="p">])</span>
+                    <span class="o">+</span> <span class="s2">&quot; / RAZON SOCIAL: &quot;</span>
+                    <span class="o">+</span> <span class="nb">str</span><span class="p">((</span><span class="n">arbol</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">register</span><span class="p">)[</span><span class="s2">&quot;values&quot;</span><span class="p">])[</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="o">+</span> <span class="s2">&quot; / NUMERO DE FACTURA: &quot;</span>
+                    <span class="o">+</span> <span class="nb">str</span><span class="p">((</span><span class="n">arbol</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">register</span><span class="p">)[</span><span class="s2">&quot;values&quot;</span><span class="p">])[</span><span class="mi">2</span><span class="p">])</span>
+                    <span class="o">+</span> <span class="s2">&quot; / FECHA: &quot;</span>
+                    <span class="o">+</span> <span class="nb">str</span><span class="p">((</span><span class="n">arbol</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">register</span><span class="p">)[</span><span class="s2">&quot;values&quot;</span><span class="p">])[</span><span class="mi">3</span><span class="p">])</span>
+                    <span class="o">+</span> <span class="s2">&quot; / PRECIO: &quot;</span>
+                    <span class="o">+</span> <span class="nb">str</span><span class="p">((</span><span class="n">arbol</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">register</span><span class="p">)[</span><span class="s2">&quot;values&quot;</span><span class="p">])[</span><span class="mi">4</span><span class="p">])</span>
+                    <span class="o">+</span> <span class="s2">&quot; / CANTIDAD: &quot;</span>
+                    <span class="o">+</span> <span class="nb">str</span><span class="p">((</span><span class="n">arbol</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">register</span><span class="p">)[</span><span class="s2">&quot;values&quot;</span><span class="p">])[</span><span class="mi">5</span><span class="p">])</span>
+                    <span class="o">+</span> <span class="s2">&quot; / ALICUOTA: &quot;</span>
+                    <span class="o">+</span> <span class="nb">str</span><span class="p">((</span><span class="n">arbol</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">register</span><span class="p">)[</span><span class="s2">&quot;values&quot;</span><span class="p">])[</span><span class="mi">6</span><span class="p">])</span>
+                    <span class="o">+</span> <span class="s2">&quot; / IMPUESTO: &quot;</span>
+                    <span class="o">+</span> <span class="nb">str</span><span class="p">((</span><span class="n">arbol</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">register</span><span class="p">)[</span><span class="s2">&quot;values&quot;</span><span class="p">])[</span><span class="mi">7</span><span class="p">])</span>
+                    <span class="o">+</span> <span class="s2">&quot; / NETO: &quot;</span>
+                    <span class="o">+</span> <span class="nb">str</span><span class="p">((</span><span class="n">arbol</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">register</span><span class="p">)[</span><span class="s2">&quot;values&quot;</span><span class="p">])[</span><span class="mi">8</span><span class="p">])</span>
+                    <span class="o">+</span> <span class="s2">&quot; / TOTAL: &quot;</span>
+                    <span class="o">+</span> <span class="nb">str</span><span class="p">((</span><span class="n">arbol</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">register</span><span class="p">)[</span><span class="s2">&quot;values&quot;</span><span class="p">])[</span><span class="mi">9</span><span class="p">])</span>
+                    <span class="o">+</span> <span class="s2">&quot; / COMPRA/VENTA: &quot;</span>
+                    <span class="o">+</span> <span class="p">(</span><span class="n">arbol</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">register</span><span class="p">)[</span><span class="s2">&quot;values&quot;</span><span class="p">])[</span><span class="mi">10</span><span class="p">]</span>
+                <span class="p">)</span></div>
+
+    <span class="c1"># Funcion para traer la lista de cuits unicos al combobox &quot;Seleccinoar CUIT&quot;</span>
+<div class="viewcode-block" id="Consultas.traer_lista"><a class="viewcode-back" href="../modulo_consultas.html#modulo_consultas.Consultas.traer_lista">[docs]</a>    <span class="k">def</span> <span class="nf">traer_lista</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        El metodo **traer_lista** devuelve un listado de **CUITS** unicos que se utilizan en para mostrar en el combobox de la vista.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="n">Facturas</span><span class="o">.</span><span class="n">select</span><span class="p">()</span>
+        <span class="n">listado3</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">fila</span> <span class="ow">in</span> <span class="n">query</span><span class="p">:</span>
+            <span class="n">listado3</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fila</span><span class="o">.</span><span class="n">CUIT</span><span class="p">)</span>
+        <span class="n">listado3</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">listado3</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">listado3</span></div>
+
+    <span class="c1"># Funcion para mostrar el saldo por CUIT</span>
+<div class="viewcode-block" id="Consultas.ver_saldo"><a class="viewcode-back" href="../modulo_consultas.html#modulo_consultas.Consultas.ver_saldo">[docs]</a>    <span class="k">def</span> <span class="nf">ver_saldo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cuit_selected</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        El metodo **ver_saldo** sirve para mostrar por interfaz el total adeduado o a favor que se tiene con una **CUIT** en particular.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">cuit_selected</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="n">Facturas</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">Facturas</span><span class="o">.</span><span class="n">Total</span><span class="p">,</span> <span class="n">Facturas</span><span class="o">.</span><span class="n">Compra_Venta</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+            <span class="n">Facturas</span><span class="o">.</span><span class="n">CUIT</span> <span class="o">==</span> <span class="n">cuit_selected</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="p">)</span>
+
+        <span class="n">lista3</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">query</span><span class="p">:</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">Total</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">Compra_Venta</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Compra&quot;</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">((</span><span class="n">x</span><span class="o">.</span><span class="n">Total</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">Compra_Venta</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="nb">print</span><span class="p">((</span><span class="n">x</span><span class="o">.</span><span class="n">Total</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">Compra_Venta</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">lista3</span> <span class="o">-=</span> <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">Total</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">Compra_Venta</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">lista3</span> <span class="o">+=</span> <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">Total</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">Compra_Venta</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="nb">print</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">lista3</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="n">showinfo</span><span class="p">(</span>
+            <span class="s2">&quot;Consulta de saldo&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Saldo con el cuit &quot;</span> <span class="o">+</span> <span class="n">cuit_selected</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;: $&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">lista3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Consultas.updtcblist"><a class="viewcode-back" href="../modulo_consultas.html#modulo_consultas.Consultas.updtcblist">[docs]</a>    <span class="k">def</span> <span class="nf">updtcblist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">boton</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        El metodo **updtcblist** sirve para que el combobox mantenga el listado de **CUITS** actualizado mientras se esté ejecutando el programa y se realicen modificaciones sobre la base de datos.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">traer_lista</span><span class="p">()</span>
+        <span class="n">boton</span><span class="p">[</span><span class="s2">&quot;values&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Federico Hernandez.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

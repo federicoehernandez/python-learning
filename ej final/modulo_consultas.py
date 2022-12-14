@@ -8,15 +8,15 @@ class Consultas:
         pass
 
     # Funciones para seleccionar todo
-    def select_all(self_sa, arbol):
+    def select_all(self, arbol):
         for item in arbol.get_children():
-            self_sa.add_selection(arbol, item)
+            self.add_selection(arbol, item)
 
-    def add_selection(self_asel, arbol, item):
+    def add_selection(self, arbol, item):
         arbol.selection_add(item)
 
     # Funcion para listar los registros seleccionados:
-    def fver(self_fver, arbol):
+    def fver(self, arbol):
         for register in arbol.selection():
             print(
                 "ID: "
@@ -46,8 +46,8 @@ class Consultas:
             )
 
     # Funcion para listar compras en consola
-    def listar_c(self_listc, arbol):
-        self_listc.select_all(arbol)
+    def listar_c(self, arbol):
+        self.select_all(arbol)
         for register in arbol.selection():
             if (arbol.item(register)["values"])[10] == "Compra":
                 print(
@@ -78,8 +78,8 @@ class Consultas:
                 )
 
     # Funcion para listar ventas en consola
-    def listar_v(self_listv, arbol):
-        self_listv.select_all(arbol)
+    def listar_v(self, arbol):
+        self.select_all(arbol)
         for register in arbol.selection():
             if (arbol.item(register)["values"])[10] == "Venta":
                 print(
@@ -110,7 +110,7 @@ class Consultas:
                 )
 
     # Funcion para traer la lista de cuits unicos al combobox "Seleccinoar CUIT"
-    def traer_lista(self_tlist):
+    def traer_lista(self):
         query = Facturas.select()
         listado3 = []
         for fila in query:
@@ -120,7 +120,7 @@ class Consultas:
         return listado3
 
     # Funcion para mostrar el saldo por CUIT
-    def ver_saldo(self_vlist, cuit_selected):
+    def ver_saldo(self, cuit_selected):
         print(cuit_selected.get())
         query = Facturas.select(Facturas.Total, Facturas.Compra_Venta).where(
             Facturas.CUIT == cuit_selected.get()

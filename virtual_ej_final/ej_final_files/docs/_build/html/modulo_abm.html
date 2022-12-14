@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>modulo_abm module &mdash; Ejercicio_Final 0.0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="modulo_consultas module" href="modulo_consultas.html" />
+    <link rel="prev" title="controlador module" href="controlador.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Ejercicio_Final
+          </a>
+              <div class="version">
+                0.0.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="controlador.html">controlador module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">modulo_abm module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#modulo_abm.Abm"><code class="docutils literal notranslate"><span class="pre">Abm</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#modulo_abm.Abm.actualizar_treeview"><code class="docutils literal notranslate"><span class="pre">Abm.actualizar_treeview()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modulo_abm.Abm.alta2"><code class="docutils literal notranslate"><span class="pre">Abm.alta2()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modulo_abm.Abm.fborrar"><code class="docutils literal notranslate"><span class="pre">Abm.fborrar()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modulo_abm.Abm.guardar_modificacion"><code class="docutils literal notranslate"><span class="pre">Abm.guardar_modificacion()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modulo_abm.Abm.modificar"><code class="docutils literal notranslate"><span class="pre">Abm.modificar()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#modulo_abm.BaseModel"><code class="docutils literal notranslate"><span class="pre">BaseModel</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#modulo_abm.BaseModel.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">BaseModel.DoesNotExist</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modulo_abm.BaseModel.id"><code class="docutils literal notranslate"><span class="pre">BaseModel.id</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#modulo_abm.Facturas"><code class="docutils literal notranslate"><span class="pre">Facturas</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#modulo_abm.Facturas.Alicuota"><code class="docutils literal notranslate"><span class="pre">Facturas.Alicuota</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modulo_abm.Facturas.CUIT"><code class="docutils literal notranslate"><span class="pre">Facturas.CUIT</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modulo_abm.Facturas.Cantidad"><code class="docutils literal notranslate"><span class="pre">Facturas.Cantidad</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modulo_abm.Facturas.Compra_Venta"><code class="docutils literal notranslate"><span class="pre">Facturas.Compra_Venta</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modulo_abm.Facturas.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">Facturas.DoesNotExist</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modulo_abm.Facturas.Fecha"><code class="docutils literal notranslate"><span class="pre">Facturas.Fecha</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modulo_abm.Facturas.Impuesto"><code class="docutils literal notranslate"><span class="pre">Facturas.Impuesto</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modulo_abm.Facturas.Neto"><code class="docutils literal notranslate"><span class="pre">Facturas.Neto</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modulo_abm.Facturas.Numero_de_factura"><code class="docutils literal notranslate"><span class="pre">Facturas.Numero_de_factura</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modulo_abm.Facturas.Precio"><code class="docutils literal notranslate"><span class="pre">Facturas.Precio</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modulo_abm.Facturas.RazonSocial"><code class="docutils literal notranslate"><span class="pre">Facturas.RazonSocial</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modulo_abm.Facturas.Total"><code class="docutils literal notranslate"><span class="pre">Facturas.Total</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modulo_abm.Facturas.gs_impuesto"><code class="docutils literal notranslate"><span class="pre">Facturas.gs_impuesto()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modulo_abm.Facturas.gs_neto"><code class="docutils literal notranslate"><span class="pre">Facturas.gs_neto()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modulo_abm.Facturas.gs_total"><code class="docutils literal notranslate"><span class="pre">Facturas.gs_total()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modulo_abm.Facturas.id"><code class="docutils literal notranslate"><span class="pre">Facturas.id</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modulo_consultas.html">modulo_consultas module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modulo_opciones.html">modulo_opciones module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="my_exception.html">my_exception module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="valida_regex.html">valida_regex module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vista.html">vista module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Ejercicio_Final</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">modulo_abm module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/modulo_abm.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-modulo_abm">
+<span id="modulo-abm-module"></span><h1>modulo_abm module<a class="headerlink" href="#module-modulo_abm" title="Permalink to this heading"></a></h1>
+<dl class="simple">
+<dt>Modulo ABM:</dt><dd><p>Este modulo contiene todas las operaciones logicas que se ejecutan sobre la base de datos para interactuar con ella (Creacion, alta de registro, baja y modificaciones.)</p>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="modulo_abm.Abm">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">modulo_abm.</span></span><span class="sig-name descname"><span class="pre">Abm</span></span><a class="reference internal" href="_modules/modulo_abm.html#Abm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modulo_abm.Abm" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>La clase <strong>Abm</strong> contiene los metodos para interactuar con la base y al mismo tiempo modificar la interfaz de usuario.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="modulo_abm.Abm.actualizar_treeview">
+<span class="sig-name descname"><span class="pre">actualizar_treeview</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">el_treeview</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modulo_abm.html#Abm.actualizar_treeview"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modulo_abm.Abm.actualizar_treeview" title="Permalink to this definition"></a></dt>
+<dd><p>El metodo <strong>actualizar_treeview</strong> actualiza la interfaz de usuario con las altas/bajas/modificaciones hechas.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modulo_abm.Abm.alta2">
+<span class="sig-name descname"><span class="pre">alta2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cuitf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">razonsocialf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numerodefacturaf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fechaf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preciof</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cantidadf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alicuotaf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compraventaf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arbol</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modulo_abm.html#Abm.alta2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modulo_abm.Abm.alta2" title="Permalink to this definition"></a></dt>
+<dd><p>El metodo de <strong>alta2</strong> crea las entradas en la base de datos y actualiza la interfaz de usuario.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modulo_abm.Abm.fborrar">
+<span class="sig-name descname"><span class="pre">fborrar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mi_tree</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modulo_abm.html#Abm.fborrar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modulo_abm.Abm.fborrar" title="Permalink to this definition"></a></dt>
+<dd><p>El metodo <strong>fborrar</strong> se utiliza para borrar lo seleccionado en la interfaz con efecto en la base de datos.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modulo_abm.Abm.guardar_modificacion">
+<span class="sig-name descname"><span class="pre">guardar_modificacion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cuitf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">razonsocialf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numerodefacturaf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fechaf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preciof</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cantidadf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alicuotaf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compraventaf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mi_tree</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modulo_abm.html#Abm.guardar_modificacion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modulo_abm.Abm.guardar_modificacion" title="Permalink to this definition"></a></dt>
+<dd><p>El metodo <strong>guardar_modificacion</strong> toma los datos actualizados de los campos de llenado de la interfaz y actualiza la informacion tanto en el treeview como en la base de datos para ese registro.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modulo_abm.Abm.modificar">
+<span class="sig-name descname"><span class="pre">modificar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cuitf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">razonsocialf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numerodefacturaf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fechaf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preciof</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cantidadf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alicuotaf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compraventaf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mi_tree</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modulo_abm.html#Abm.modificar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modulo_abm.Abm.modificar" title="Permalink to this definition"></a></dt>
+<dd><p>El metodo <strong>modificar</strong> sirve para copiar los datos de la linea del treeview seleccionada para modificar a los campos de llenado de datos de la interfaz.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="modulo_abm.BaseModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">modulo_abm.</span></span><span class="sig-name descname"><span class="pre">BaseModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modulo_abm.html#BaseModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modulo_abm.BaseModel" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<p>Esta primera clase <strong>BaseModel</strong> esta creada para ser la clase padre del resto de clases que vayan a representar tablas de la base de datos. Esto se hace para que todas hereden los metodos y atributos necesarios, en este caso es que usen la base de datos <strong>facturasdecomprayventa</strong>.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="modulo_abm.BaseModel.DoesNotExist">
+<span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#modulo_abm.BaseModel.DoesNotExist" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModelDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="modulo_abm.BaseModel.id">
+<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;AutoField:</span> <span class="pre">BaseModel.id&gt;</span></em><a class="headerlink" href="#modulo_abm.BaseModel.id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="modulo_abm.Facturas">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">modulo_abm.</span></span><span class="sig-name descname"><span class="pre">Facturas</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modulo_abm.html#Facturas"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modulo_abm.Facturas" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#modulo_abm.BaseModel" title="modulo_abm.BaseModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></a></p>
+<p>La clase <strong>Facturas</strong> representa la creacion de la tabla principal de la base de datos.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="modulo_abm.Facturas.Alicuota">
+<span class="sig-name descname"><span class="pre">Alicuota</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;FloatField:</span> <span class="pre">Facturas.Alicuota&gt;</span></em><a class="headerlink" href="#modulo_abm.Facturas.Alicuota" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="modulo_abm.Facturas.CUIT">
+<span class="sig-name descname"><span class="pre">CUIT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;FloatField:</span> <span class="pre">Facturas.CUIT&gt;</span></em><a class="headerlink" href="#modulo_abm.Facturas.CUIT" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="modulo_abm.Facturas.Cantidad">
+<span class="sig-name descname"><span class="pre">Cantidad</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;IntegerField:</span> <span class="pre">Facturas.Cantidad&gt;</span></em><a class="headerlink" href="#modulo_abm.Facturas.Cantidad" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="modulo_abm.Facturas.Compra_Venta">
+<span class="sig-name descname"><span class="pre">Compra_Venta</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;CharField:</span> <span class="pre">Facturas.Compra_Venta&gt;</span></em><a class="headerlink" href="#modulo_abm.Facturas.Compra_Venta" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="modulo_abm.Facturas.DoesNotExist">
+<span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#modulo_abm.Facturas.DoesNotExist" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">FacturasDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="modulo_abm.Facturas.Fecha">
+<span class="sig-name descname"><span class="pre">Fecha</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;DateField:</span> <span class="pre">Facturas.Fecha&gt;</span></em><a class="headerlink" href="#modulo_abm.Facturas.Fecha" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="modulo_abm.Facturas.Impuesto">
+<span class="sig-name descname"><span class="pre">Impuesto</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;FloatField:</span> <span class="pre">Facturas.Impuesto&gt;</span></em><a class="headerlink" href="#modulo_abm.Facturas.Impuesto" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="modulo_abm.Facturas.Neto">
+<span class="sig-name descname"><span class="pre">Neto</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;FloatField:</span> <span class="pre">Facturas.Neto&gt;</span></em><a class="headerlink" href="#modulo_abm.Facturas.Neto" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="modulo_abm.Facturas.Numero_de_factura">
+<span class="sig-name descname"><span class="pre">Numero_de_factura</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;IntegerField:</span> <span class="pre">Facturas.Numero_de_factura&gt;</span></em><a class="headerlink" href="#modulo_abm.Facturas.Numero_de_factura" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="modulo_abm.Facturas.Precio">
+<span class="sig-name descname"><span class="pre">Precio</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;FloatField:</span> <span class="pre">Facturas.Precio&gt;</span></em><a class="headerlink" href="#modulo_abm.Facturas.Precio" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="modulo_abm.Facturas.RazonSocial">
+<span class="sig-name descname"><span class="pre">RazonSocial</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;CharField:</span> <span class="pre">Facturas.RazonSocial&gt;</span></em><a class="headerlink" href="#modulo_abm.Facturas.RazonSocial" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="modulo_abm.Facturas.Total">
+<span class="sig-name descname"><span class="pre">Total</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;FloatField:</span> <span class="pre">Facturas.Total&gt;</span></em><a class="headerlink" href="#modulo_abm.Facturas.Total" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modulo_abm.Facturas.gs_impuesto">
+<span class="sig-name descname"><span class="pre">gs_impuesto</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/modulo_abm.html#Facturas.gs_impuesto"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modulo_abm.Facturas.gs_impuesto" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modulo_abm.Facturas.gs_neto">
+<span class="sig-name descname"><span class="pre">gs_neto</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/modulo_abm.html#Facturas.gs_neto"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modulo_abm.Facturas.gs_neto" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modulo_abm.Facturas.gs_total">
+<span class="sig-name descname"><span class="pre">gs_total</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/modulo_abm.html#Facturas.gs_total"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modulo_abm.Facturas.gs_total" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="modulo_abm.Facturas.id">
+<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;IntegerField:</span> <span class="pre">Facturas.id&gt;</span></em><a class="headerlink" href="#modulo_abm.Facturas.id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="controlador.html" class="btn btn-neutral float-left" title="controlador module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="modulo_consultas.html" class="btn btn-neutral float-right" title="modulo_consultas module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Federico Hernandez.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

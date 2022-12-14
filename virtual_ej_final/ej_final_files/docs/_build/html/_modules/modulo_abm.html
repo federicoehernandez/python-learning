@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>modulo_abm &mdash; Ejercicio_Final 0.0.1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> Ejercicio_Final
+          </a>
+              <div class="version">
+                0.0.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../controlador.html">controlador module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modulo_abm.html">modulo_abm module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modulo_consultas.html">modulo_consultas module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modulo_opciones.html">modulo_opciones module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../my_exception.html">my_exception module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../valida_regex.html">valida_regex module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vista.html">vista module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Ejercicio_Final</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">modulo_abm</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for modulo_abm</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Modulo ABM:</span>
+<span class="sd">    Este modulo contiene todas las operaciones logicas que se ejecutan sobre la base de datos para interactuar con ella (Creacion, alta de registro, baja y modificaciones.)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">peewee</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">playhouse</span> <span class="kn">import</span> <span class="n">hybrid</span>
+<span class="kn">from</span> <span class="nn">tkinter.messagebox</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">from</span> <span class="nn">tkinter</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">valida_regex</span> <span class="kn">import</span> <span class="n">ValidadorRegex</span>
+<span class="kn">from</span> <span class="nn">my_exception</span> <span class="kn">import</span> <span class="n">ExceptionOwn</span>
+
+<span class="n">db</span> <span class="o">=</span> <span class="n">SqliteDatabase</span><span class="p">(</span><span class="s2">&quot;facturasdecomprayventa.db&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="BaseModel"><a class="viewcode-back" href="../modulo_abm.html#modulo_abm.BaseModel">[docs]</a><span class="k">class</span> <span class="nc">BaseModel</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Esta primera clase **BaseModel** esta creada para ser la clase padre del resto de clases que vayan a representar tablas de la base de datos. Esto se hace para que todas hereden los metodos y atributos necesarios, en este caso es que usen la base de datos **facturasdecomprayventa**.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">database</span> <span class="o">=</span> <span class="n">db</span></div>
+
+
+<div class="viewcode-block" id="Facturas"><a class="viewcode-back" href="../modulo_abm.html#modulo_abm.Facturas">[docs]</a><span class="k">class</span> <span class="nc">Facturas</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    La clase **Facturas** representa la creacion de la tabla principal de la base de datos.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">IntegerField</span><span class="p">(</span><span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">CUIT</span> <span class="o">=</span> <span class="n">FloatField</span><span class="p">()</span>
+    <span class="n">RazonSocial</span> <span class="o">=</span> <span class="n">CharField</span><span class="p">()</span>
+    <span class="n">Numero_de_factura</span> <span class="o">=</span> <span class="n">IntegerField</span><span class="p">()</span>
+    <span class="n">Fecha</span> <span class="o">=</span> <span class="n">DateField</span><span class="p">()</span>
+    <span class="n">Precio</span> <span class="o">=</span> <span class="n">FloatField</span><span class="p">()</span>
+    <span class="n">Cantidad</span> <span class="o">=</span> <span class="n">IntegerField</span><span class="p">()</span>
+    <span class="n">Alicuota</span> <span class="o">=</span> <span class="n">FloatField</span><span class="p">()</span>
+    <span class="n">Impuesto</span> <span class="o">=</span> <span class="n">FloatField</span><span class="p">()</span>
+    <span class="n">Neto</span> <span class="o">=</span> <span class="n">FloatField</span><span class="p">()</span>
+    <span class="n">Total</span> <span class="o">=</span> <span class="n">FloatField</span><span class="p">()</span>
+    <span class="n">Compra_Venta</span> <span class="o">=</span> <span class="n">CharField</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Facturas.gs_impuesto"><a class="viewcode-back" href="../modulo_abm.html#modulo_abm.Facturas.gs_impuesto">[docs]</a>    <span class="nd">@hybrid</span><span class="o">.</span><span class="n">hybrid_method</span>
+    <span class="k">def</span> <span class="nf">gs_impuesto</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">Precio</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">Cantidad</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">Alicuota</span> <span class="o">/</span> <span class="mi">100</span></div>
+
+<div class="viewcode-block" id="Facturas.gs_neto"><a class="viewcode-back" href="../modulo_abm.html#modulo_abm.Facturas.gs_neto">[docs]</a>    <span class="nd">@hybrid</span><span class="o">.</span><span class="n">hybrid_method</span>
+    <span class="k">def</span> <span class="nf">gs_neto</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">Precio</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">Cantidad</span></div>
+
+<div class="viewcode-block" id="Facturas.gs_total"><a class="viewcode-back" href="../modulo_abm.html#modulo_abm.Facturas.gs_total">[docs]</a>    <span class="nd">@hybrid</span><span class="o">.</span><span class="n">hybrid_method</span>
+    <span class="k">def</span> <span class="nf">gs_total</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Precio</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">Cantidad</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">Alicuota</span> <span class="o">/</span> <span class="mi">100</span>
+            <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">Precio</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">Cantidad</span>
+        <span class="p">)</span></div></div>
+
+
+<span class="n">db</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+<span class="n">db</span><span class="o">.</span><span class="n">create_tables</span><span class="p">([</span><span class="n">Facturas</span><span class="p">])</span>
+<span class="n">db</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+
+<span class="n">factura_consulta</span> <span class="o">=</span> <span class="n">Facturas</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="Abm"><a class="viewcode-back" href="../modulo_abm.html#modulo_abm.Abm">[docs]</a><span class="k">class</span> <span class="nc">Abm</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    La clase **Abm** contiene los metodos para interactuar con la base y al mismo tiempo modificar la interfaz de usuario.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># La funcion de alta de registros:</span>
+<div class="viewcode-block" id="Abm.alta2"><a class="viewcode-back" href="../modulo_abm.html#modulo_abm.Abm.alta2">[docs]</a>    <span class="k">def</span> <span class="nf">alta2</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">cuitf</span><span class="p">,</span>
+        <span class="n">razonsocialf</span><span class="p">,</span>
+        <span class="n">numerodefacturaf</span><span class="p">,</span>
+        <span class="n">fechaf</span><span class="p">,</span>
+        <span class="n">preciof</span><span class="p">,</span>
+        <span class="n">cantidadf</span><span class="p">,</span>
+        <span class="n">alicuotaf</span><span class="p">,</span>
+        <span class="n">compraventaf</span><span class="p">,</span>
+        <span class="n">arbol</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        El metodo de **alta2** crea las entradas en la base de datos y actualiza la interfaz de usuario.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">validador</span> <span class="o">=</span> <span class="n">ValidadorRegex</span><span class="p">(</span><span class="n">cuitf</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+
+        <span class="k">if</span> <span class="n">validador</span><span class="o">.</span><span class="n">validator</span><span class="p">():</span>
+            <span class="n">cuit_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">cuitf</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="n">cuit_num</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">cuit_str</span> <span class="k">if</span> <span class="n">x</span> <span class="o">!=</span> <span class="s2">&quot;-&quot;</span><span class="p">]</span>
+            <span class="n">verif</span> <span class="o">=</span> <span class="mi">11</span> <span class="o">-</span> <span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="n">cuit_num</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">5</span>
+                    <span class="o">+</span> <span class="n">cuit_num</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="mi">4</span>
+                    <span class="o">+</span> <span class="n">cuit_num</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span>
+                    <span class="o">+</span> <span class="n">cuit_num</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="mi">2</span>
+                    <span class="o">+</span> <span class="n">cuit_num</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">*</span> <span class="mi">7</span>
+                    <span class="o">+</span> <span class="n">cuit_num</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">*</span> <span class="mi">6</span>
+                    <span class="o">+</span> <span class="n">cuit_num</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">*</span> <span class="mi">5</span>
+                    <span class="o">+</span> <span class="n">cuit_num</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span> <span class="o">*</span> <span class="mi">4</span>
+                    <span class="o">+</span> <span class="n">cuit_num</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span>
+                    <span class="o">+</span> <span class="n">cuit_num</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span> <span class="o">*</span> <span class="mi">2</span>
+                <span class="p">)</span>
+                <span class="o">%</span> <span class="mi">11</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">verif</span> <span class="o">==</span> <span class="n">cuit_num</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">cuitf</span><span class="o">.</span><span class="n">get</span><span class="p">())[</span><span class="mi">2</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;-&quot;</span><span class="p">:</span>
+                    <span class="n">data</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="nb">str</span><span class="p">(</span><span class="n">cuitf</span><span class="o">.</span><span class="n">get</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">cuitf</span><span class="o">.</span><span class="n">get</span><span class="p">())[</span><span class="mi">1</span><span class="p">]</span>
+                        <span class="o">+</span> <span class="s2">&quot;-&quot;</span>
+                        <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">cuitf</span><span class="o">.</span><span class="n">get</span><span class="p">())[</span><span class="mi">2</span><span class="p">]</span>
+                        <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">cuitf</span><span class="o">.</span><span class="n">get</span><span class="p">())[</span><span class="mi">3</span><span class="p">]</span>
+                        <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">cuitf</span><span class="o">.</span><span class="n">get</span><span class="p">())[</span><span class="mi">4</span><span class="p">]</span>
+                        <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">cuitf</span><span class="o">.</span><span class="n">get</span><span class="p">())[</span><span class="mi">5</span><span class="p">]</span>
+                        <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">cuitf</span><span class="o">.</span><span class="n">get</span><span class="p">())[</span><span class="mi">6</span><span class="p">]</span>
+                        <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">cuitf</span><span class="o">.</span><span class="n">get</span><span class="p">())[</span><span class="mi">7</span><span class="p">]</span>
+                        <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">cuitf</span><span class="o">.</span><span class="n">get</span><span class="p">())[</span><span class="mi">8</span><span class="p">]</span>
+                        <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">cuitf</span><span class="o">.</span><span class="n">get</span><span class="p">())[</span><span class="mi">9</span><span class="p">]</span>
+                        <span class="o">+</span> <span class="s2">&quot;-&quot;</span>
+                        <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">cuitf</span><span class="o">.</span><span class="n">get</span><span class="p">())[</span><span class="mi">10</span><span class="p">],</span>
+                        <span class="n">razonsocialf</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span>
+                        <span class="n">numerodefacturaf</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span>
+                        <span class="n">fechaf</span><span class="o">.</span><span class="n">get_date</span><span class="p">(),</span>
+                        <span class="n">preciof</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span>
+                        <span class="n">cantidadf</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span>
+                        <span class="n">alicuotaf</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span>
+                        <span class="n">compraventaf</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span>
+                    <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">data</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="n">cuitf</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span>
+                        <span class="n">razonsocialf</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span>
+                        <span class="n">numerodefacturaf</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span>
+                        <span class="n">fechaf</span><span class="o">.</span><span class="n">get_date</span><span class="p">(),</span>
+                        <span class="n">preciof</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span>
+                        <span class="n">cantidadf</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span>
+                        <span class="n">alicuotaf</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span>
+                        <span class="n">compraventaf</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span>
+                    <span class="p">)</span>
+                <span class="c1"># db.connect()</span>
+                <span class="n">factura_alta</span> <span class="o">=</span> <span class="n">Facturas</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+                    <span class="n">CUIT</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="n">RazonSocial</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                    <span class="n">Numero_de_factura</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+                    <span class="n">Fecha</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span>
+                    <span class="n">Precio</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span>
+                    <span class="n">Cantidad</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span>
+                    <span class="n">Alicuota</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span>
+                    <span class="n">Impuesto</span><span class="o">=</span><span class="n">Facturas</span><span class="o">.</span><span class="n">gs_impuesto</span><span class="p">(),</span>
+                    <span class="n">Neto</span><span class="o">=</span><span class="n">Facturas</span><span class="o">.</span><span class="n">gs_neto</span><span class="p">(),</span>
+                    <span class="n">Total</span><span class="o">=</span><span class="n">Facturas</span><span class="o">.</span><span class="n">gs_total</span><span class="p">(),</span>
+                    <span class="n">Compra_Venta</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="mi">7</span><span class="p">],</span>
+                <span class="p">)</span>
+                <span class="n">factura_alta</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+                <span class="n">db</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+                <span class="n">showinfo</span><span class="p">(</span>
+                    <span class="s2">&quot;Registro dado de alta&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;Se cargó la factura N°: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">numerodefacturaf</span><span class="o">.</span><span class="n">get</span><span class="p">()),</span>
+                <span class="p">)</span>
+                <span class="n">cuitf</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">),</span>
+                <span class="n">razonsocialf</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">),</span>
+                <span class="n">numerodefacturaf</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+                <span class="n">fechaf</span><span class="o">.</span><span class="n">set_date</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()),</span>
+                <span class="n">preciof</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+                <span class="n">cantidadf</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+                <span class="n">alicuotaf</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+                <span class="n">compraventaf</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">actualizar_treeview</span><span class="p">(</span><span class="n">arbol</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="p">(</span>
+                        <span class="n">ExceptionOwn</span><span class="p">(</span>
+                            <span class="s2">&quot;Error en formato de CUIT&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;Ingrese un CUIT valido con formato &#39;XX-XXXXXXXX-X&#39; o &#39;XXXXXXXXXXX&#39;.&quot;</span><span class="p">,</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span>
+                <span class="k">except</span> <span class="n">ExceptionOwn</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+                    <span class="n">showerror</span><span class="p">(</span>
+                        <span class="n">error</span><span class="o">.</span><span class="n">msj_1</span><span class="p">,</span>
+                        <span class="n">error</span><span class="o">.</span><span class="n">msj_2</span><span class="p">,</span>
+                    <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="p">(</span>
+                    <span class="n">ExceptionOwn</span><span class="p">(</span>
+                        <span class="s2">&quot;Error en formato de CUIT&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;Ingrese un CUIT valido con formato &#39;XX-XXXXXXXX-X&#39; o &#39;XXXXXXXXXXX&#39;.&quot;</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">except</span> <span class="n">ExceptionOwn</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+                <span class="n">showerror</span><span class="p">(</span>
+                    <span class="n">error</span><span class="o">.</span><span class="n">msj_1</span><span class="p">,</span>
+                    <span class="n">error</span><span class="o">.</span><span class="n">msj_2</span><span class="p">,</span>
+                <span class="p">)</span></div>
+
+    <span class="c1"># La funcion de actualizacion del treeview:</span>
+<div class="viewcode-block" id="Abm.actualizar_treeview"><a class="viewcode-back" href="../modulo_abm.html#modulo_abm.Abm.actualizar_treeview">[docs]</a>    <span class="k">def</span> <span class="nf">actualizar_treeview</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">el_treeview</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        El metodo **actualizar_treeview** actualiza la interfaz de usuario con las altas/bajas/modificaciones hechas.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">records</span> <span class="o">=</span> <span class="n">el_treeview</span><span class="o">.</span><span class="n">get_children</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">records</span><span class="p">:</span>
+            <span class="n">el_treeview</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
+
+        <span class="n">query</span> <span class="o">=</span> <span class="n">factura_consulta</span><span class="o">.</span><span class="n">select</span><span class="p">()</span><span class="o">.</span><span class="n">dicts</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">fila</span> <span class="ow">in</span> <span class="n">query</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">fila</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">4</span><span class="p">]))</span>
+
+            <span class="n">el_treeview</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span>
+                <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                <span class="mi">0</span><span class="p">,</span>
+                <span class="n">text</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">fila</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">],</span>
+                <span class="n">values</span><span class="o">=</span><span class="p">(</span>
+                    <span class="nb">list</span><span class="p">(</span><span class="n">fila</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">1</span><span class="p">],</span>
+                    <span class="nb">list</span><span class="p">(</span><span class="n">fila</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">2</span><span class="p">],</span>
+                    <span class="nb">list</span><span class="p">(</span><span class="n">fila</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">3</span><span class="p">],</span>
+                    <span class="nb">str</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">fila</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">4</span><span class="p">]),</span>
+                    <span class="s2">&quot;$</span><span class="si">{:,.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">fila</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">5</span><span class="p">]),</span>
+                    <span class="nb">list</span><span class="p">(</span><span class="n">fila</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">6</span><span class="p">],</span>
+                    <span class="nb">list</span><span class="p">(</span><span class="n">fila</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">7</span><span class="p">],</span>
+                    <span class="s2">&quot;$</span><span class="si">{:,.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">fila</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">8</span><span class="p">]),</span>
+                    <span class="s2">&quot;$</span><span class="si">{:,.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">fila</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">9</span><span class="p">]),</span>
+                    <span class="s2">&quot;$</span><span class="si">{:,.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">fila</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">10</span><span class="p">]),</span>
+                    <span class="nb">list</span><span class="p">(</span><span class="n">fila</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">11</span><span class="p">],</span>
+                <span class="p">),</span>
+            <span class="p">)</span></div>
+
+    <span class="c1"># La funcion para borrar las lineas seleccionadas:</span>
+<div class="viewcode-block" id="Abm.fborrar"><a class="viewcode-back" href="../modulo_abm.html#modulo_abm.Abm.fborrar">[docs]</a>    <span class="k">def</span> <span class="nf">fborrar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mi_tree</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        El metodo **fborrar** se utiliza para borrar lo seleccionado en la interfaz con efecto en la base de datos.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">valor</span> <span class="o">=</span> <span class="n">mi_tree</span><span class="o">.</span><span class="n">selection</span><span class="p">()</span>
+        <span class="c1"># print(valor)  # (&#39;I005&#39;,)</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">valor</span><span class="p">)):</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="n">mi_tree</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">valor</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+            <span class="n">mi_id</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">])</span>
+            <span class="n">query</span> <span class="o">=</span> <span class="n">Facturas</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">Facturas</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">mi_id</span><span class="p">)</span>
+            <span class="n">query</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actualizar_treeview</span><span class="p">(</span><span class="n">mi_tree</span><span class="p">)</span></div>
+
+    <span class="c1"># Funcion para seleccionar lo que voy a modificar</span>
+<div class="viewcode-block" id="Abm.modificar"><a class="viewcode-back" href="../modulo_abm.html#modulo_abm.Abm.modificar">[docs]</a>    <span class="k">def</span> <span class="nf">modificar</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">cuitf</span><span class="p">,</span>
+        <span class="n">razonsocialf</span><span class="p">,</span>
+        <span class="n">numerodefacturaf</span><span class="p">,</span>
+        <span class="n">fechaf</span><span class="p">,</span>
+        <span class="n">preciof</span><span class="p">,</span>
+        <span class="n">cantidadf</span><span class="p">,</span>
+        <span class="n">alicuotaf</span><span class="p">,</span>
+        <span class="n">compraventaf</span><span class="p">,</span>
+        <span class="n">mi_tree</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        El metodo **modificar** sirve para copiar los datos de la linea del treeview seleccionada para modificar a los campos de llenado de datos de la interfaz.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cuitf</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">END</span><span class="p">)</span>
+        <span class="n">razonsocialf</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">END</span><span class="p">)</span>
+        <span class="n">numerodefacturaf</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">END</span><span class="p">)</span>
+        <span class="n">preciof</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">END</span><span class="p">)</span>
+        <span class="n">cantidadf</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">END</span><span class="p">)</span>
+        <span class="n">alicuotaf</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">END</span><span class="p">)</span>
+        <span class="n">compraventaf</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">END</span><span class="p">)</span>
+        <span class="n">a_modificar</span> <span class="o">=</span> <span class="n">mi_tree</span><span class="o">.</span><span class="n">focus</span><span class="p">()</span>
+        <span class="n">valores</span> <span class="o">=</span> <span class="n">mi_tree</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">a_modificar</span><span class="p">,</span> <span class="s2">&quot;values&quot;</span><span class="p">)</span>
+        <span class="n">fechu</span> <span class="o">=</span> <span class="n">valores</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+        <span class="n">fechux</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">fechu</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>
+            <span class="o">+</span> <span class="n">fechu</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span>
+            <span class="o">+</span> <span class="s2">&quot;/&quot;</span>
+            <span class="o">+</span> <span class="n">fechu</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+            <span class="o">+</span> <span class="n">fechu</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="o">+</span> <span class="s2">&quot;/&quot;</span>
+            <span class="o">+</span> <span class="n">fechu</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="o">+</span> <span class="n">fechu</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">cuitf</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">valores</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">razonsocialf</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">valores</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">numerodefacturaf</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">valores</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">fechaf</span><span class="o">.</span><span class="n">set_date</span><span class="p">(</span><span class="n">fechux</span><span class="p">)</span>
+        <span class="n">preciof</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">valores</span><span class="p">[</span><span class="mi">4</span><span class="p">])[</span><span class="mi">1</span><span class="p">:])</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
+        <span class="n">cantidadf</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">valores</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span>
+        <span class="n">alicuotaf</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">valores</span><span class="p">[</span><span class="mi">6</span><span class="p">])</span>
+        <span class="n">compraventaf</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">valores</span><span class="p">[</span><span class="mi">10</span><span class="p">])</span></div>
+
+    <span class="c1"># Funcion para guardar la modificacion ingresada</span>
+<div class="viewcode-block" id="Abm.guardar_modificacion"><a class="viewcode-back" href="../modulo_abm.html#modulo_abm.Abm.guardar_modificacion">[docs]</a>    <span class="k">def</span> <span class="nf">guardar_modificacion</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">cuitf</span><span class="p">,</span>
+        <span class="n">razonsocialf</span><span class="p">,</span>
+        <span class="n">numerodefacturaf</span><span class="p">,</span>
+        <span class="n">fechaf</span><span class="p">,</span>
+        <span class="n">preciof</span><span class="p">,</span>
+        <span class="n">cantidadf</span><span class="p">,</span>
+        <span class="n">alicuotaf</span><span class="p">,</span>
+        <span class="n">compraventaf</span><span class="p">,</span>
+        <span class="n">mi_tree</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        El metodo **guardar_modificacion** toma los datos actualizados de los campos de llenado de la interfaz y actualiza la informacion tanto en el treeview como en la base de datos para ese registro.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">validation</span> <span class="o">=</span> <span class="n">ValidadorRegex</span><span class="p">(</span><span class="n">cuitf</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+
+        <span class="k">if</span> <span class="n">validation</span><span class="o">.</span><span class="n">validator</span><span class="p">():</span>
+            <span class="n">cuit_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">cuitf</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="n">cuit_num</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">cuit_str</span> <span class="k">if</span> <span class="n">x</span> <span class="o">!=</span> <span class="s2">&quot;-&quot;</span><span class="p">]</span>
+            <span class="n">verif</span> <span class="o">=</span> <span class="mi">11</span> <span class="o">-</span> <span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="n">cuit_num</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">5</span>
+                    <span class="o">+</span> <span class="n">cuit_num</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="mi">4</span>
+                    <span class="o">+</span> <span class="n">cuit_num</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span>
+                    <span class="o">+</span> <span class="n">cuit_num</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="mi">2</span>
+                    <span class="o">+</span> <span class="n">cuit_num</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">*</span> <span class="mi">7</span>
+                    <span class="o">+</span> <span class="n">cuit_num</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">*</span> <span class="mi">6</span>
+                    <span class="o">+</span> <span class="n">cuit_num</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">*</span> <span class="mi">5</span>
+                    <span class="o">+</span> <span class="n">cuit_num</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span> <span class="o">*</span> <span class="mi">4</span>
+                    <span class="o">+</span> <span class="n">cuit_num</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span>
+                    <span class="o">+</span> <span class="n">cuit_num</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span> <span class="o">*</span> <span class="mi">2</span>
+                <span class="p">)</span>
+                <span class="o">%</span> <span class="mi">11</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">verif</span> <span class="o">==</span> <span class="n">cuit_num</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="n">a_modificar</span> <span class="o">=</span> <span class="n">mi_tree</span><span class="o">.</span><span class="n">focus</span><span class="p">()</span>
+
+                <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">cuitf</span><span class="o">.</span><span class="n">get</span><span class="p">())[</span><span class="mi">2</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;-&quot;</span><span class="p">:</span>
+                    <span class="n">data</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="nb">str</span><span class="p">(</span><span class="n">cuitf</span><span class="o">.</span><span class="n">get</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">cuitf</span><span class="o">.</span><span class="n">get</span><span class="p">())[</span><span class="mi">1</span><span class="p">]</span>
+                        <span class="o">+</span> <span class="s2">&quot;-&quot;</span>
+                        <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">cuitf</span><span class="o">.</span><span class="n">get</span><span class="p">())[</span><span class="mi">2</span><span class="p">]</span>
+                        <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">cuitf</span><span class="o">.</span><span class="n">get</span><span class="p">())[</span><span class="mi">3</span><span class="p">]</span>
+                        <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">cuitf</span><span class="o">.</span><span class="n">get</span><span class="p">())[</span><span class="mi">4</span><span class="p">]</span>
+                        <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">cuitf</span><span class="o">.</span><span class="n">get</span><span class="p">())[</span><span class="mi">5</span><span class="p">]</span>
+                        <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">cuitf</span><span class="o">.</span><span class="n">get</span><span class="p">())[</span><span class="mi">6</span><span class="p">]</span>
+                        <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">cuitf</span><span class="o">.</span><span class="n">get</span><span class="p">())[</span><span class="mi">7</span><span class="p">]</span>
+                        <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">cuitf</span><span class="o">.</span><span class="n">get</span><span class="p">())[</span><span class="mi">8</span><span class="p">]</span>
+                        <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">cuitf</span><span class="o">.</span><span class="n">get</span><span class="p">())[</span><span class="mi">9</span><span class="p">]</span>
+                        <span class="o">+</span> <span class="s2">&quot;-&quot;</span>
+                        <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">cuitf</span><span class="o">.</span><span class="n">get</span><span class="p">())[</span><span class="mi">10</span><span class="p">],</span>
+                        <span class="n">razonsocialf</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span>
+                        <span class="n">numerodefacturaf</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span>
+                        <span class="n">fechaf</span><span class="o">.</span><span class="n">get_date</span><span class="p">(),</span>
+                        <span class="n">preciof</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span>
+                        <span class="n">cantidadf</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span>
+                        <span class="n">alicuotaf</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span>
+                        <span class="n">compraventaf</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span>
+                        <span class="n">mi_tree</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">a_modificar</span><span class="p">)[</span><span class="s2">&quot;text&quot;</span><span class="p">],</span>
+                    <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">data</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="n">cuitf</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span>
+                        <span class="n">razonsocialf</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span>
+                        <span class="n">numerodefacturaf</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span>
+                        <span class="n">fechaf</span><span class="o">.</span><span class="n">get_date</span><span class="p">(),</span>
+                        <span class="n">preciof</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span>
+                        <span class="n">cantidadf</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span>
+                        <span class="n">alicuotaf</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span>
+                        <span class="n">compraventaf</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span>
+                        <span class="n">mi_tree</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">a_modificar</span><span class="p">)[</span><span class="s2">&quot;text&quot;</span><span class="p">],</span>
+                    <span class="p">)</span>
+
+                <span class="n">query</span> <span class="o">=</span> <span class="n">Facturas</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                    <span class="n">CUIT</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="n">RazonSocial</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                    <span class="n">Numero_de_factura</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+                    <span class="n">Fecha</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">3</span><span class="p">]),</span>
+                    <span class="n">Precio</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span>
+                    <span class="n">Cantidad</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span>
+                    <span class="n">Alicuota</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">Facturas</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">data</span><span class="p">[</span><span class="mi">8</span><span class="p">])</span>
+                <span class="n">query</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+
+                <span class="n">query</span> <span class="o">=</span> <span class="n">Facturas</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                    <span class="n">Impuesto</span><span class="o">=</span><span class="n">Facturas</span><span class="o">.</span><span class="n">gs_impuesto</span><span class="p">(),</span>
+                    <span class="n">Neto</span><span class="o">=</span><span class="n">Facturas</span><span class="o">.</span><span class="n">gs_neto</span><span class="p">(),</span>
+                    <span class="n">Total</span><span class="o">=</span><span class="n">Facturas</span><span class="o">.</span><span class="n">gs_total</span><span class="p">(),</span>
+                    <span class="n">Compra_Venta</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="mi">7</span><span class="p">],</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">Facturas</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">data</span><span class="p">[</span><span class="mi">8</span><span class="p">])</span>
+                <span class="n">query</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Estoy en alta todo ok&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">actualizar_treeview</span><span class="p">(</span><span class="n">mi_tree</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">showerror</span><span class="p">(</span>
+                    <span class="s2">&quot;Error en formato de CUIT&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;Ingrese un CUIT válido con formato ##-########-# o ###########&quot;</span><span class="p">,</span>
+                <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">showerror</span><span class="p">(</span>
+                <span class="s2">&quot;Error en formato de CUIT&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;Ingrese un CUIT válido con formato ##-########-# o ###########&quot;</span><span class="p">,</span>
+            <span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Federico Hernandez.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
